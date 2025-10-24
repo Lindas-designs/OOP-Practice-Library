@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 62.5%;
+  font-family: "Manrope", sans-serif;
+  font-weight: 600;
+}
+body {
+  height: 100vh;
+  background-image: linear-gradient(#ffc8dd, #bde0fe, #a2d2ff);
+}
+.page-content {
+  padding: 3rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  /* height: 20%; */
+  font-size: 2rem;
+  color: #0077b6;
+  flex: 1;
+}
+.user-books {
+  flex: 4;
+}
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.5;
+  color: #03045e;
+  font-size: 1.75rem;
+}
+.all-books {
+  flex: 5;
+  padding: 2rem;
+}
+.user-books,
+.all-books {
+  overflow-y: scroll;
+  color: #03045e;
+  width: 60%;
+}
+/* Scrollbar style in Firefox */
+.all-books {
+  scrollbar-width: thin; /* auto, thin, none */
+  scrollbar-color: #0077b6 #a2d2ff; /* thumb color, track color */
+}
+/* Scrollbar styles in chrome, safari, edge */
+/* Scrollbar container */
+.all-books::-webkit-scrollbar {
+  width: 0.5rem; /* width for vertical scrollbar */
+}
+
+/* Scrollbar track (background) */
+.all-books::-webkit-scrollbar-track {
+  background: #a2d2ff;
+  border-radius: 0.5rem;
+}
+
+/* Scrollbar thumb (the draggable part) */
+.all-books::-webkit-scrollbar-thumb {
+  background-color: #0077b6;
+  border-radius: 0.5rem;
+  border: none; /* optional: space around thumb */
+}
+
+.book {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1.5fr 0.5fr;
+  margin: 1rem 0rem 1rem;
+  font-size: 1.5rem;
+}
+/* Button */
+.request-book {
+  height: 2.25rem;
+  font-size: 1.25rem;
+  color: #bde0fe;
+  background-color: #0077b6;
+  outline: none;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.request-book:hover {
+  background-image: linear-gradient(#0077b6, #03045e);
+}
+.request-book:active {
+  transform: scale(0.95);
+}

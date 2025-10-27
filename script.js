@@ -119,6 +119,7 @@ class Member {
 const Joanna = new Member("Joanna");
 console.log(Joanna);
 
+//visual representation of data
 document.addEventListener("DOMContentLoaded", (e) => {
   userName.insertAdjacentHTML("afterbegin", `Hello, ${Joanna.name}`);
   for (const [key, value] of Object.entries(LibraryInstances)) {
@@ -129,34 +130,26 @@ document.addEventListener("DOMContentLoaded", (e) => {
       )}</div><div class="title">${value.title}</div>
     <div class="author">${
       value.author
-    }</div><button class="request-book">Request</button></div>
-    
-      `
+    }</div><button class="request-book" data-key="${key}">Request</button></div>`
     );
   }
+  const buttons = document.querySelectorAll(".request-book");
+  console.log(buttons);
+  allBooks.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (e.target.classList.contains("request-book")) {
+      const bookKey = e.target.dataset.key;
+      const book = LibraryInstances[bookKey];
+      console.log(book);
+      book.checkOutBook();
+    }
+  });
+  //checking availability of a book
 
-  // <div class="book">
-  //   <div class="number"></div>
-  // <div class="title"></div>
-  // <div class="author"></div>
-  // </div>;
-  //   <div class="book">
-  //     <div class="number"></div>
-  //     <div class="title"></div>
-  //     <div class="author"></div>
-  //   </div>
-
-  // for (const [key, value] of Object.entries(LibraryInstances)) {
-  //   bookList.insertAdjacentElement("afterbegin", `<li></li>`);
-  // }
-  //   for (const [key, value] of Object.entries(obj)) {
-
-  // bookList.insertAdjacentElement(
-  //   "afterbegin",
-  //   `<li></li>`
-  // );
+  //if book is available, taking it out of 'All Books' list and adding to 'Your Books' section (in data and in DOM)
 });
 
+// const requestBtn = document.querySelector(".request-book");
 // const GreatSeduction = new Book("Great Seduction", "Charles Smith");
 // const LittleFools = new Book("Little Fools", "Jonas Sinkhole");
 
@@ -197,3 +190,24 @@ document.addEventListener("DOMContentLoaded", (e) => {
 // });
 
 // console.log(LibraryInstances.book1.checkOutBook());
+
+// <div class="book">
+//   <div class="number"></div>
+// <div class="title"></div>
+// <div class="author"></div>
+// </div>;
+//   <div class="book">
+//     <div class="number"></div>
+//     <div class="title"></div>
+//     <div class="author"></div>
+//   </div>
+
+// for (const [key, value] of Object.entries(LibraryInstances)) {
+//   bookList.insertAdjacentElement("afterbegin", `<li></li>`);
+// }
+//   for (const [key, value] of Object.entries(obj)) {
+
+// bookList.insertAdjacentElement(
+//   "afterbegin",
+//   `<li></li>`
+// );

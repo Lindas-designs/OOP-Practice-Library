@@ -66,16 +66,29 @@ const userName = document.querySelector(".user-name");
 const allBooks = document.querySelector(".all-books");
 class Book {
   isAvailable = true;
-  constructor(title, author) {
+  constructor(title, author, key, element) {
     this.title = title;
     this.author = author;
+    this.key = key;
+    this.element = element;
+  }
+
+  removeFromLibrary(libraryObject) {
+    //deleting from data
+    delete libraryObject[this.key];
+    //removing from DOM
+    this.element.remove();
   }
   checkOutBook() {
+    const success = true;
+    const fail = false;
     if (this.isAvailable) {
       this.isAvailable = false;
       console.log(`${this.title} by ${this.author} has been checked out.`);
+      return success;
     } else {
       console.log(`${this.title} by ${this.author} is not available.`);
+      return fail;
     }
   }
   checkInBook() {
@@ -133,21 +146,32 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }</div><button class="request-book" data-key="${key}">Request</button></div>`
     );
   }
+
+  // After insertion, link each Book instance to its DOM element
+  document.querySelectorAll(".book").forEach((div, i) => {
+    const key = `book${i + 1}`;
+    LibraryInstances[key].element = div;
+    LibraryInstances[key].key = key;
+  });
+
   const buttons = document.querySelectorAll(".request-book");
-  console.log(buttons);
   allBooks.addEventListener("click", function (e) {
     e.preventDefault();
     if (e.target.classList.contains("request-book")) {
       const bookKey = e.target.dataset.key;
       const book = LibraryInstances[bookKey];
-      console.log(book);
-      book.checkOutBook();
+      if (book.checkOutBook()) {
+        book.removeFromLibrary(LibraryInstances);
+        //adding Book to 'Your Books section' (in data and DOM)
+      }
     }
   });
   //checking availability of a book
 
   //if book is available, taking it out of 'All Books' list and adding to 'Your Books' section (in data and in DOM)
 });
+
+//Noņemt numuriņus nost! Atstāt tikai author un title
 
 // const requestBtn = document.querySelector(".request-book");
 // const GreatSeduction = new Book("Great Seduction", "Charles Smith");

@@ -39,6 +39,9 @@ body {
   color: #03045e;
   font-size: 1.75rem;
 }
+.user-books {
+  padding: 2rem;
+}
 .all-books {
   flex: 5;
   padding: 2rem;
@@ -50,23 +53,28 @@ body {
   width: 60%;
 }
 /* Scrollbar style in Firefox */
+
+.user-books,
 .all-books {
   scrollbar-width: thin; /* auto, thin, none */
   scrollbar-color: #0077b6 #a2d2ff; /* thumb color, track color */
 }
 /* Scrollbar styles in chrome, safari, edge */
 /* Scrollbar container */
+.user-books::-webkit-scrollbar,
 .all-books::-webkit-scrollbar {
   width: 0.5rem; /* width for vertical scrollbar */
 }
 
 /* Scrollbar track (background) */
+.user-books::-webkit-scrollbar-track,
 .all-books::-webkit-scrollbar-track {
   background: #a2d2ff;
   border-radius: 0.5rem;
 }
 
 /* Scrollbar thumb (the draggable part) */
+.user-books::-webkit-scrollbar-thumb,
 .all-books::-webkit-scrollbar-thumb {
   background-color: #0077b6;
   border-radius: 0.5rem;
@@ -75,12 +83,12 @@ body {
 
 .book {
   display: grid;
-  grid-template-columns: 0.5fr 2fr 1.5fr 0.5fr;
+  grid-template-columns: 2fr 1.5fr 0.5fr;
   margin: 1rem 0rem 1rem;
   font-size: 1.5rem;
 }
 /* Button */
-.request-book {
+.btn {
   height: 2.25rem;
   font-size: 1.25rem;
   color: #bde0fe;
@@ -90,9 +98,9 @@ body {
   border-radius: 0.5rem;
   cursor: pointer;
 }
-.request-book:hover {
+.btn:hover {
   background-image: linear-gradient(#0077b6, #03045e);
 }
-.request-book:active {
+.btn:active {
   transform: scale(0.95);
 }

@@ -63,6 +63,7 @@ const books = [
 ];
 
 const userName = document.querySelector(".user-name");
+const userBooks = document.querySelector(".user-books");
 const allBooks = document.querySelector(".all-books");
 class Book {
   isAvailable = true;
@@ -77,6 +78,21 @@ class Book {
     delete libraryObject[this.key];
     //removing from DOM
     this.element.remove();
+  }
+  //adding Book to 'Your Books section'
+  addToMemberLibrary(memberName, book) {
+    //data:
+    memberName.borrowBook(book);
+    console.log(memberName.books);
+    //DOM:
+    userBooks.insertAdjacentHTML(
+      "beforeend",
+      ` <div class="book">
+          <div class="title">${book.title}</div>
+          <div class="author">${book.author}</div>
+          <button class="btn return-book"">Return</button>
+        </div>`
+    );
   }
 
   checkOutBook() {
@@ -116,6 +132,7 @@ class Member {
   }
   borrowBook(book) {
     if (book.isAvailable) {
+      console.log(book.isAvailable);
       this.books.push(book);
     }
     book.checkOutBook();
@@ -138,12 +155,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
   for (const [key, value] of Object.entries(LibraryInstances)) {
     allBooks.insertAdjacentHTML(
       "beforeend",
-      `<div class="book"> <div class="number">${key.slice(
-        4
-      )}</div><div class="title">${value.title}</div>
-    <div class="author">${
-      value.author
-    }</div><button class="request-book" data-key="${key}">Request</button></div>`
+      ` <div class="book">
+          <div class="title">${value.title}</div>
+          <div class="author">${value.author}</div>
+          <button class="btn request-book" data-key="${key}">Request</button>
+        </div>`
     );
   }
 
@@ -153,85 +169,26 @@ document.addEventListener("DOMContentLoaded", (e) => {
     LibraryInstances[key].element = div;
     LibraryInstances[key].key = key;
   });
-
-  const buttons = document.querySelectorAll(".request-book");
+  // 'All books' event listener
   allBooks.addEventListener("click", function (e) {
     e.preventDefault();
     if (e.target.classList.contains("request-book")) {
       const bookKey = e.target.dataset.key;
       const book = LibraryInstances[bookKey];
-      if (book.checkOutBook()) {
-        book.removeFromLibrary(LibraryInstances);
-        //adding Book to 'Your Books section' (in data and DOM)
-      }
+      //adding Book to 'Your Books section':
+      book.addToMemberLibrary(Joanna, book);
+      //removing book from 'All Books' list:
+      book.removeFromLibrary(LibraryInstances);
     }
   });
-  //checking availability of a book
 
-  //if book is available, taking it out of 'All Books' list and adding to 'Your Books' section (in data and in DOM)
+  //'Your Books' event listener
+  userBooks.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (e.target.classList.contains("return-book")) {
+      //adding Book to 'All Books' list
+      console.log(e.target.closest(".book").querySelector(".title"));
+      //removing book from 'Your Books' list
+    }
+  });
 });
-
-//Noņemt numuriņus nost! Atstāt tikai author un title
-
-// const requestBtn = document.querySelector(".request-book");
-// const GreatSeduction = new Book("Great Seduction", "Charles Smith");
-// const LittleFools = new Book("Little Fools", "Jonas Sinkhole");
-
-// Joanna.borrowBook(GreatSeduction);
-// Joanna.borrowBook(GreatSeduction);
-// console.log(Joanna);
-
-// Joannas profils
-//Saraksts ar Joannas grāmatām
-
-//Pilns saraksts ar visām grāmatām
-//Katrai grāmatai blakus poga Request
-// Ja grāmata pieejama, tiek pievienots Joannas grāmatām
-
-///////piemērs no AI
-
-// function createBookInstancesFromObject(obj) {
-//   const result = {};
-//   for (const [key, value] of Object.entries(obj)) {
-//     result[key] = new Book(value.title, value.author);
-//   }
-//   return result;
-// }
-
-// Usage
-// const LibraryInstances = createBookInstancesFromObject(LibraryBooks);
-
-// LibraryInstances.book3.checkOutBook();
-
-////////// piemērs no AI
-// const LibraryBooks = {};
-// const LibraryInstances = {};
-
-// books.forEach((book, i) => {
-//   const key = `book${i + 1}`;
-//   LibraryBooks[key] = book;
-//   LibraryInstances[key] = new Book(book.title, book.author);
-// });
-
-// console.log(LibraryInstances.book1.checkOutBook());
-
-// <div class="book">
-//   <div class="number"></div>
-// <div class="title"></div>
-// <div class="author"></div>
-// </div>;
-//   <div class="book">
-//     <div class="number"></div>
-//     <div class="title"></div>
-//     <div class="author"></div>
-//   </div>
-
-// for (const [key, value] of Object.entries(LibraryInstances)) {
-//   bookList.insertAdjacentElement("afterbegin", `<li></li>`);
-// }
-//   for (const [key, value] of Object.entries(obj)) {
-
-// bookList.insertAdjacentElement(
-//   "afterbegin",
-//   `<li></li>`
-// );

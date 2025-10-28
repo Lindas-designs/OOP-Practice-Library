@@ -72,13 +72,13 @@ class Book {
     this.key = key;
     this.element = element;
   }
-
   removeFromLibrary(libraryObject) {
     //deleting from data
     delete libraryObject[this.key];
     //removing from DOM
     this.element.remove();
   }
+
   checkOutBook() {
     const success = true;
     const fail = false;

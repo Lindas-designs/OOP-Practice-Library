@@ -85,12 +85,13 @@ class Book {
     memberName.borrowBook(book);
     console.log(memberName.books);
     //DOM:
+
     userBooks.insertAdjacentHTML(
       "beforeend",
       ` <div class="book">
           <div class="title">${book.title}</div>
           <div class="author">${book.author}</div>
-          <button class="btn return-book"">Return</button>
+          <button class="btn return-book"data-key="${book.key}">Return</button>
         </div>`
     );
   }
@@ -187,7 +188,13 @@ document.addEventListener("DOMContentLoaded", (e) => {
     e.preventDefault();
     if (e.target.classList.contains("return-book")) {
       //adding Book to 'All Books' list
-      console.log(e.target.closest(".book").querySelector(".title"));
+      //moving book from Joanna.books to LibraryInstances[bookKey].
+
+      const bookKey = e.target.dataset.key;
+      const book = Joanna.books.find((obj) =>
+        Object.values(obj).includes(bookKey)
+      );
+      Joanna.returnBook(book);
       //removing book from 'Your Books' list
     }
   });

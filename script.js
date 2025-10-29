@@ -206,7 +206,7 @@ userBooks.addEventListener("click", (e) => {
   if (!e.target.classList.contains("return-book")) return;
 
   const key = e.target.dataset.key;
-  const book = Joanna.books.find((b) => b.key === key);
+  const book = Joanna.books.find((book) => book.key === key);
 
   Joanna.returnBook(book);
 

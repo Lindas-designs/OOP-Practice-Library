@@ -194,8 +194,13 @@ document.addEventListener("DOMContentLoaded", (e) => {
       const book = Joanna.books.find((obj) =>
         Object.values(obj).includes(bookKey)
       );
-      Joanna.returnBook(book);
       //removing book from 'Your Books' list
+      //data:
+      Joanna.returnBook(book);
+      //DOM:
+      e.target.closest(".book").remove();
+
+      //adding Book to 'All Books' list:
     }
   });
 });

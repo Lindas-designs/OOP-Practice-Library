@@ -1,14 +1,4 @@
-// 1. Library Book System
-
-// Make classes for Books and Members. Books have a title, author, and whether they’re available. Members have a name and the books they’ve borrowed. You can borrow or return books with methods like borrowBook() and returnBook().
-
-// www.javaassignmenthelp.com/blog/object-oriented-programming-project-ideas/#list-of-interesting-object-oriented-programming-project-ideas-%e2%80%93-beginners-to-advanced-level
-
-// sākotnēji visas grāmatas ir pieejamas;
-// Pēc tam lietotāji sāk ņemt grāmatas, mainot grāmatu pieejamību;
-
-//domāt loģiku html un css!!! Lai izmantotu šo kodu (modificējot) reālā mājaslapā
-
+//DATA
 const books = [
   { title: "The Silent Horizon", author: "Amelia Reed" },
   { title: "Whispers of the Past", author: "Liam Carter" },
@@ -60,147 +50,166 @@ const books = [
   { title: "The Glassmaker’s Son", author: "Naomi Ellis" },
   { title: "Winds of the Hollow Coast", author: "Theo Clarke" },
   { title: "The Ember Archives", author: "Lillian Ford" },
+  { title: "The Midnight Observatory", author: "Adrian Blake" },
+  { title: "The Silver Compass", author: "Juliette Reed" },
+  { title: "Ashes Beneath the Sky", author: "Michael Rowan" },
+  { title: "The Paper Moon Conspiracy", author: "Victoria Lang" },
+  { title: "Lanterns Over Elysium", author: "Harvey Moore" },
+  { title: "The River That Dreamed", author: "Claudia Hayes" },
+  { title: "The Architect of Storms", author: "Damian Wells" },
+  { title: "Beneath the Iron Trees", author: "Harriet Lowe" },
+  { title: "The Astronomer’s Garden", author: "Philip Wren" },
+  { title: "The Lost Harbor Lights", author: "Isla Morton" },
+  { title: "The Children of Winterglass", author: "Rowan Pierce" },
+  { title: "The Hourglass Dominion", author: "Sylvia Frost" },
+  { title: "The Mapmaker’s Paradox", author: "Gareth Cole" },
+  { title: "A Lantern for the Dead", author: "Nina Whitfield" },
+  { title: "The Sky Without Wings", author: "Arthur Monroe" },
+  { title: "The Book of Hollow Stars", author: "Ivy Harrington" },
+  { title: "Dreams Beneath the Clocktower", author: "Julian Ellis" },
+  { title: "The House of Ash and Mirrors", author: "Clara Frost" },
+  { title: "The Shadow Over Blackthorn", author: "Victor James" },
+  { title: "Letters from a Forgotten World", author: "Amara Snow" },
+  { title: "The Firewatcher’s Daughter", author: "Derek Vaughn" },
+  { title: "The Wolves of Evergreen Hollow", author: "Matilda Rose" },
+  { title: "The Painter of Broken Light", author: "Samuel Gray" },
+  { title: "Before the Stars Went Silent", author: "Celia Dray" },
+  { title: "The City of Endless Rain", author: "Oliver Kent" },
+  { title: "The Ghosts of Lantern Hill", author: "Mae Collins" },
+  { title: "The Dream Archivist", author: "Jonathan Reid" },
+  { title: "The Lake Beneath the Mountains", author: "Audrey Hale" },
+  { title: "The Compass of Forgotten Dreams", author: "Rowan Ellis" },
+  { title: "The Music of Falling Snow", author: "Clara Hayes" },
+  { title: "A Crown of Ashes", author: "Juliette Monroe" },
+  { title: "The Lighthouse Keeper’s Secret", author: "Nathan Frost" },
+  { title: "The Clock of Silent Echoes", author: "Lucia Bennett" },
+  { title: "The Garden Beyond Shadows", author: "Miles Jennings" },
+  { title: "The Memory of Lanterns", author: "Sarah Blake" },
+  { title: "The Whispering Tide", author: "Theo Wren" },
+  { title: "The Last City of Glass", author: "Amelia Vaughn" },
+  { title: "The Sea Between the Worlds", author: "James Cole" },
 ];
 
-const userName = document.querySelector(".user-name");
-const userBooks = document.querySelector(".user-books");
-const allBooks = document.querySelector(".all-books");
+// CLASSES
 class Book {
-  isAvailable = true;
-  constructor(title, author, key, element) {
+  constructor(title, author, key) {
     this.title = title;
     this.author = author;
     this.key = key;
-    this.element = element;
-  }
-  removeFromLibrary(libraryObject) {
-    //deleting from data
-    delete libraryObject[this.key];
-    //removing from DOM
-    this.element.remove();
-  }
-  //adding Book to 'Your Books section'
-  addToMemberLibrary(memberName, book) {
-    //data:
-    memberName.borrowBook(book);
-    console.log(memberName.books);
-    //DOM:
-
-    userBooks.insertAdjacentHTML(
-      "beforeend",
-      ` <div class="book">
-          <div class="title">${book.title}</div>
-          <div class="author">${book.author}</div>
-          <button class="btn return-book"data-key="${book.key}">Return</button>
-        </div>`
-    );
+    this.isAvailable = true;
   }
 
-  checkOutBook() {
-    const success = true;
-    const fail = false;
-    if (this.isAvailable) {
-      this.isAvailable = false;
-      console.log(`${this.title} by ${this.author} has been checked out.`);
-      return success;
+  checkOut() {
+    this.isAvailable = false;
+  }
+
+  checkIn() {
+    this.isAvailable = true;
+  }
+}
+
+class Member {
+  constructor(name) {
+    this.name = name;
+    this.books = [];
+  }
+
+  borrowBook(book) {
+    if (book.isAvailable) {
+      book.checkOut();
+      this.books.push(book);
     } else {
-      console.log(`${this.title} by ${this.author} is not available.`);
-      return fail;
+      console.log(`${book.title} is already borrowed.`);
     }
   }
-  checkInBook() {
-    if (!this.isAvailable) {
-      this.isAvailable = true;
-      console.log(`${this.title} by ${this.author} has been returned.`);
-    } else {
-      console.log(`${this.title} has not been checked out.`);
+
+  returnBook(book) {
+    const index = this.books.indexOf(book);
+    if (index !== -1) {
+      this.books.splice(index, 1);
+      book.checkIn();
     }
   }
 }
 
-//creating Book instances
+// INITIALIZATION
 const LibraryInstances = {};
 books.forEach((book, i) => {
   const key = `book${i + 1}`;
-  LibraryInstances[key] = new Book(book.title, book.author);
+  LibraryInstances[key] = new Book(book.title, book.author, key);
 });
-console.log(LibraryInstances);
-
-class Member {
-  books = [];
-  constructor(name) {
-    this.name = name;
-  }
-  borrowBook(book) {
-    if (book.isAvailable) {
-      console.log(book.isAvailable);
-      this.books.push(book);
-    }
-    book.checkOutBook();
-  }
-  //checking if a book exists in an array, if yes, taking that book out
-  returnBook(book) {
-    if (!(this.books.indexOf(book) === -1)) {
-      this.books.splice(this.books.indexOf(book), 1);
-    }
-    book.checkInBook();
-  }
-}
 
 const Joanna = new Member("Joanna");
-console.log(Joanna);
 
-//visual representation of data
-document.addEventListener("DOMContentLoaded", (e) => {
-  userName.insertAdjacentHTML("afterbegin", `Hello, ${Joanna.name}`);
-  for (const [key, value] of Object.entries(LibraryInstances)) {
-    allBooks.insertAdjacentHTML(
-      "beforeend",
-      ` <div class="book">
-          <div class="title">${value.title}</div>
-          <div class="author">${value.author}</div>
-          <button class="btn request-book" data-key="${key}">Request</button>
-        </div>`
-    );
+// DOM ELEMENTS
+const userName = document.querySelector(".user-name");
+const userBooks = document.querySelector(".user-books");
+const allBooks = document.querySelector(".all-books");
+
+// DOM UPDATE FUNCTIONS
+function addBookToUser(book) {
+  const html = `
+    <div class="book" data-key="${book.key}">
+      <div class="title">${book.title}</div>
+      <div class="author">${book.author}</div>
+      <button class="btn return-book" data-key="${book.key}">Return</button>
+    </div>
+  `;
+  userBooks.insertAdjacentHTML("afterbegin", html);
+}
+
+function removeBookFromUser(book) {
+  const el = userBooks.querySelector(`[data-key="${book.key}"]`);
+  if (el) el.remove();
+}
+
+function addBookToAll(book) {
+  const html = `
+    <div class="book" data-key="${book.key}">
+      <div class="title">${book.title}</div>
+      <div class="author">${book.author}</div>
+      <button class="btn request-book" data-key="${book.key}">Request</button>
+    </div>
+  `;
+  allBooks.insertAdjacentHTML("afterbegin", html);
+}
+
+function removeBookFromAll(book) {
+  const el = allBooks.querySelector(`[data-key="${book.key}"]`);
+  if (el) el.remove();
+}
+
+// INITIAL RENDER
+document.addEventListener("DOMContentLoaded", () => {
+  userName.textContent = `Hello, ${Joanna.name}`;
+
+  // Render all available books
+  for (const book of Object.values(LibraryInstances)) {
+    if (book.isAvailable) addBookToAll(book);
   }
+});
 
-  // After insertion, link each Book instance to its DOM element
-  document.querySelectorAll(".book").forEach((div, i) => {
-    const key = `book${i + 1}`;
-    LibraryInstances[key].element = div;
-    LibraryInstances[key].key = key;
-  });
-  // 'All books' event listener
-  allBooks.addEventListener("click", function (e) {
-    e.preventDefault();
-    if (e.target.classList.contains("request-book")) {
-      const bookKey = e.target.dataset.key;
-      const book = LibraryInstances[bookKey];
-      //adding Book to 'Your Books section':
-      book.addToMemberLibrary(Joanna, book);
-      //removing book from 'All Books' list:
-      book.removeFromLibrary(LibraryInstances);
-    }
-  });
+// EVENT HANDLERS
+allBooks.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("request-book")) return;
 
-  //'Your Books' event listener
-  userBooks.addEventListener("click", function (e) {
-    e.preventDefault();
-    if (e.target.classList.contains("return-book")) {
-      //adding Book to 'All Books' list
-      //moving book from Joanna.books to LibraryInstances[bookKey].
+  const key = e.target.dataset.key;
+  const book = LibraryInstances[key];
 
-      const bookKey = e.target.dataset.key;
-      const book = Joanna.books.find((obj) =>
-        Object.values(obj).includes(bookKey)
-      );
-      //removing book from 'Your Books' list
-      //data:
-      Joanna.returnBook(book);
-      //DOM:
-      e.target.closest(".book").remove();
+  Joanna.borrowBook(book);
 
-      //adding Book to 'All Books' list:
-    }
-  });
+  removeBookFromAll(book);
+  addBookToUser(book);
+});
+
+userBooks.addEventListener("click", (e) => {
+  if (!e.target.classList.contains("return-book")) return;
+
+  const key = e.target.dataset.key;
+  const book = Joanna.books.find((b) => b.key === key);
+
+  Joanna.returnBook(book);
+
+  removeBookFromUser(book);
+  addBookToAll(book);
 });
